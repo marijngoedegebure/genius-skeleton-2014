@@ -1,5 +1,6 @@
 package negotiator.group12;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,9 @@ import negotiator.utility.UtilitySpace;
  * This is your negotiation party.
  */
 public class Group12 extends AbstractNegotiationParty {
+	
+	ArrayList<Bid> previousBids = new ArrayList<Bid>();
+	ArrayList<Action> previousActions = new ArrayList<Action>();
 	
 	/**
 	 * Please keep this constructor. This is called by genius.
@@ -43,12 +47,16 @@ public class Group12 extends AbstractNegotiationParty {
 	 */
 	@Override
 	public Action chooseAction(List<Class> validActions) {
+		System.out.println("Agent in turn: " + this.getPartyId());
 		// with 50% chance, counter offer
 		// if we are the first party, also offer.
 		if (!validActions.contains(Accept.class) || Math.random() > 0.5) {
-			return new Offer(generateRandomBid());
+			Bid newBid = generateRandomBid();
+			System.out.println("New Bid: " + newBid.toString());
+			return new Offer(newBid);
 		}
 		else {
+			System.out.println("Accept");
 			return new Accept();
 		}
 	}
@@ -64,6 +72,12 @@ public class Group12 extends AbstractNegotiationParty {
 	@Override
 	public void receiveMessage(Object sender, Action action) {
 		// Here you can listen to other parties' messages
+		System.out.println("Agent " + this.getPartyId() + " receives bid");
+		System.out.println(action.toString());
+		previousActions.add(action);
+		if(Action.getBidFromAction(action) != null) {
+			previousBids.add(Action.getBidFromAction(action));
+		}
 	}
 
 }
