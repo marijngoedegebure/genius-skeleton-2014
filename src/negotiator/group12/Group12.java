@@ -52,6 +52,7 @@ public class Group12 extends AbstractNegotiationParty {
 		// if we are the first party, also offer.
 		if (!validActions.contains(Accept.class) || Math.random() > 0.5) {
 			Bid newBid = generateRandomBid();
+			Bid bid = BidGenerator.generateBid(this.utilitySpace);
 			System.out.println("New Bid: " + newBid.toString());
 			return new Offer(newBid);
 		}
