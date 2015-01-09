@@ -9,7 +9,9 @@ public class PreferenceBlock {
 		String[] splitted = block.split(", ");
 		for(String i : splitted){
 			String[] nodeString = i.split("=");	
-			Node node = new Node(nodeString[0],Double.parseDouble(nodeString[1]));
+			String value = nodeString[1].replace(",", ".");
+			value = value.substring(0, 3);
+			Node node = new Node(nodeString[0],Double.parseDouble(value));
 			nodeList.add(node);
 		}
 	}

@@ -17,11 +17,12 @@ public class Preference {
 	public Preference(UtilitySpace utilitySpace){
 		Domain domain = utilitySpace.getDomain();
 		int size = utilitySpace.getEvaluators().size();
-		for(int i = 0; i< size; i++){
+		System.out.println("size: "+size);
+		for(int i = 1; i< size; i++){
 			Evaluator evalor = utilitySpace.getEvaluator(i);
+			System.out.println(evalor);
 			PreferenceBlock prefBlock = new PreferenceBlock(evalor.toString());
 			preferenceList.add(prefBlock);
 		}
-		//Set<Entry<Objective, Evaluator>> setEvaluators= utilitySpace.getEvaluators();
 	}
 }
