@@ -3,6 +3,7 @@ package negotiator.group12;
 import java.util.List;
 import java.util.Map;
 
+import negotiator.Bid;
 import negotiator.DeadlineType;
 import negotiator.Timeline;
 import negotiator.actions.Accept;
@@ -15,7 +16,7 @@ import negotiator.utility.UtilitySpace;
  * This is your negotiation party.
  */
 public class Group12 extends AbstractNegotiationParty {
-
+	
 	/**
 	 * Please keep this constructor. This is called by genius.
 	 *
@@ -30,6 +31,7 @@ public class Group12 extends AbstractNegotiationParty {
 				  long randomSeed) {
 		// Make sure that this constructor calls it's parent.
 		super(utilitySpace, deadlines, timeline, randomSeed);
+		Preference pref = new Preference(utilitySpace);
 	}
 
 	/**
@@ -41,7 +43,6 @@ public class Group12 extends AbstractNegotiationParty {
 	 */
 	@Override
 	public Action chooseAction(List<Class> validActions) {
-
 		// with 50% chance, counter offer
 		// if we are the first party, also offer.
 		if (!validActions.contains(Accept.class) || Math.random() > 0.5) {
@@ -62,7 +63,7 @@ public class Group12 extends AbstractNegotiationParty {
 	 */
 	@Override
 	public void receiveMessage(Object sender, Action action) {
-		// Here you can listen to other parties' messages		
+		// Here you can listen to other parties' messages
 	}
 
 }
