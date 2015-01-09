@@ -3,6 +3,7 @@ package negotiator.group12;
 import java.util.List;
 import java.util.Map;
 
+import negotiator.Bid;
 import negotiator.DeadlineType;
 import negotiator.Timeline;
 import negotiator.actions.Accept;
@@ -41,13 +42,16 @@ public class Group12 extends AbstractNegotiationParty {
 	 */
 	@Override
 	public Action chooseAction(List<Class> validActions) {
-
+		System.out.println("Agent in turn: " + this.getPartyId());
 		// with 50% chance, counter offer
 		// if we are the first party, also offer.
 		if (!validActions.contains(Accept.class) || Math.random() > 0.5) {
-			return new Offer(generateRandomBid());
+			Bid newBid = generateRandomBid();
+			System.out.println("New Bid: " + newBid.toString());
+			return new Offer(newBid);
 		}
 		else {
+			System.out.println("Accept");
 			return new Accept();
 		}
 	}
@@ -62,7 +66,11 @@ public class Group12 extends AbstractNegotiationParty {
 	 */
 	@Override
 	public void receiveMessage(Object sender, Action action) {
-		// Here you can listen to other parties' messages		
+		// Here you can listen to other parties' messages
+		System.out.println("Agent " + this.getPartyId() + " receives bid");
+		if(Action.getBidFromAction(action) != null) {
+			System.out.println(Action.getBidFromAction(action).toString());
+		}
 	}
 
 }
