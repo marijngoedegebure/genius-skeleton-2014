@@ -1,5 +1,6 @@
 package negotiator.group12;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,9 @@ import negotiator.utility.UtilitySpace;
  */
 public class Group12 extends AbstractNegotiationParty {
 
+	ArrayList<Bid> previousBids = new ArrayList<Bid>();
+	ArrayList<Action> previousActions = new ArrayList<Action>();
+	
 	/**
 	 * Please keep this constructor. This is called by genius.
 	 *
@@ -68,8 +72,10 @@ public class Group12 extends AbstractNegotiationParty {
 	public void receiveMessage(Object sender, Action action) {
 		// Here you can listen to other parties' messages
 		System.out.println("Agent " + this.getPartyId() + " receives bid");
+		System.out.println(action.toString());
+		previousActions.add(action);
 		if(Action.getBidFromAction(action) != null) {
-			System.out.println(Action.getBidFromAction(action).toString());
+			previousBids.add(Action.getBidFromAction(action));
 		}
 	}
 
