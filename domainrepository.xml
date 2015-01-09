@@ -3,18 +3,18 @@
     <items>
         <agentRepItems/>
         <partyRepItems/>
-        <domainRepItem>
-            <domainRepItem url="file:etc/templates/partydomain/party_domain.xml">
-                <profile url="file:etc/templates/partydomain/party1_utility.xml"/>
-                <profile url="file:etc/templates/partydomain/party2_utility.xml"/>
-                <profile url="file:etc/templates/partydomain/party3_utility.xml"/>
-                <profile url="file:etc/templates/partydomain/party4_utility.xml"/>
-                <profile url="file:etc/templates/partydomain/party5_utility.xml"/>
-                <profile url="file:etc/templates/partydomain/party6_utility.xml"/>
-                <profile url="file:etc/templates/partydomain/party7_utility.xml"/>
-                <profile url="file:etc/templates/partydomain/party8_utility.xml"/>
-                <profile url="file:etc/templates/partydomain/party9_utility.xml"/>
-            </domainRepItem>            
+        <domainRepItem>           
+            <domainRepItem url="file:etc/templates/symposium/symposium.xml">
+                <profile url="file:etc/templates/symposium/symposium_util1.xml"/>
+                <profile url="file:etc/templates/symposium/symposium_util2.xml"/>
+                <profile url="file:etc/templates/symposium/symposium_util3.xml"/>
+                <profile url="file:etc/templates/symposium/symposium_util4.xml"/>
+                <profile url="file:etc/templates/symposium/symposium_util5.xml"/>
+                <profile url="file:etc/templates/symposium/symposium_util6.xml"/>
+                <profile url="file:etc/templates/symposium/symposium_util7.xml"/>
+                <profile url="file:etc/templates/symposium/symposium_util8.xml"/>
+                <profile url="file:etc/templates/symposium/symposium_util9.xml"/>
+            </domainRepItem>
         </domainRepItem>
         <protocolRepItem/>
         <multiPartyProtocolRepItem/>
