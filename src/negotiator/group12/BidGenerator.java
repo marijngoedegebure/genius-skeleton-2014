@@ -8,13 +8,14 @@ import negotiator.issue.ValueDiscrete;
 import negotiator.utility.UtilitySpace;
 
 public class BidGenerator {
-	public static Bid generateBid(UtilitySpace utilitySpace) {
-		//utilitySpace.getDomain().getIssues().get(0).
-		ValueDiscrete val = new ValueDiscrete("asdfasdf");
-		Value value = (Value) val;
-		
+	public static Bid generateBid(UtilitySpace utilitySpace, Preference preference) {
 		HashMap<Integer, Value> hsmp = new HashMap<Integer, Value>();
-		hsmp.put(0, value);
+		for(int i = 0; i < preference.preferenceList.size(); i++) {
+			Node n = preference.preferenceList.get(i).getHighestPreference();
+			ValueDiscrete val = new ValueDiscrete(n.getName());
+			Value value = (Value) val;
+			hsmp.put(i+1, value);
+		}
 		
 		Bid bid = new Bid();
 		try {

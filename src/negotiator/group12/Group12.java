@@ -20,6 +20,7 @@ public class Group12 extends AbstractNegotiationParty {
 	
 	ArrayList<Bid> previousBids = new ArrayList<Bid>();
 	ArrayList<Action> previousActions = new ArrayList<Action>();
+	Preference preference;
 	
 	/**
 	 * Please keep this constructor. This is called by genius.
@@ -35,7 +36,7 @@ public class Group12 extends AbstractNegotiationParty {
 				  long randomSeed) {
 		// Make sure that this constructor calls it's parent.
 		super(utilitySpace, deadlines, timeline, randomSeed);
-		Preference pref = new Preference(utilitySpace);
+		preference = new Preference(utilitySpace);
 	}
 
 	/**
@@ -51,10 +52,10 @@ public class Group12 extends AbstractNegotiationParty {
 		// with 50% chance, counter offer
 		// if we are the first party, also offer.
 		if (!validActions.contains(Accept.class) || Math.random() > 0.5) {
-			Bid newBid = generateRandomBid();
-			Bid bid = BidGenerator.generateBid(this.utilitySpace);
-			System.out.println("New Bid: " + newBid.toString());
-			return new Offer(newBid);
+			//Bid newBid = generateRandomBid();
+			//System.out.println("New Bid: " + newBid.toString());
+			Bid bid = BidGenerator.generateBid(this.utilitySpace, this.preference);
+			return new Offer(bid);
 		}
 		else {
 			System.out.println("Accept");
