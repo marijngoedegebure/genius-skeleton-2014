@@ -1,9 +1,11 @@
 package negotiator.group12;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import negotiator.AgentID;
 import negotiator.Bid;
 import negotiator.DeadlineType;
 import negotiator.Timeline;
@@ -21,6 +23,7 @@ public class Group12 extends AbstractNegotiationParty {
 	ArrayList<Bid> previousBids = new ArrayList<Bid>();
 	ArrayList<Action> previousActions = new ArrayList<Action>();
 	Preference preference;
+	HashMap<AgentID, Preference> otherAgentsPreference = new HashMap<AgentID, Preference>();
 	
 	/**
 	 * Please keep this constructor. This is called by genius.
@@ -52,8 +55,6 @@ public class Group12 extends AbstractNegotiationParty {
 		// with 50% chance, counter offer
 		// if we are the first party, also offer.
 		if (!validActions.contains(Accept.class) || Math.random() > 0.5) {
-			//Bid newBid = generateRandomBid();
-			//System.out.println("New Bid: " + newBid.toString());
 			Bid bid = BidGenerator.generateBid(this.utilitySpace, this.preference);
 			return new Offer(bid);
 		}
@@ -76,9 +77,25 @@ public class Group12 extends AbstractNegotiationParty {
 		// Here you can listen to other parties' messages
 		System.out.println("Agent " + this.getPartyId() + " receives bid");
 		System.out.println(action.toString());
+		action.getAgent();
 		previousActions.add(action);
 		if(Action.getBidFromAction(action) != null) {
-			previousBids.add(Action.getBidFromAction(action));
+			Bid bid = Action.getBidFromAction(action);
+			try {
+				if(!otherAgentsPreference.containsKey(this.getPartyId())) {
+					Preference pref = new Preference(this.utilitySpace);
+					pref.updatePreference(bid);
+					otherAgentsPreference.put(action.getAgent(), pref);
+				}
+				else {
+					otherAgentsPreference.get(this.getPartyId()).updatePreference(bid);
+				}
+				Double utilityOfBid = this.utilitySpace.getUtility(bid);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			previousBids.add(bid);
 		}
 	}
 
