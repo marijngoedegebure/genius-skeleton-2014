@@ -5,15 +5,15 @@
         <partyRepItems/>
         <domainRepItem>           
             <domainRepItem url="file:etc/templates/symposium/symposium.xml">
-                <profile url="file:etc/templates/symposium/symposium_util1.xml"/>
-                <profile url="file:etc/templates/symposium/symposium_util2.xml"/>
-                <profile url="file:etc/templates/symposium/symposium_util3.xml"/>
-                <profile url="file:etc/templates/symposium/symposium_util4.xml"/>
-                <profile url="file:etc/templates/symposium/symposium_util5.xml"/>
-                <profile url="file:etc/templates/symposium/symposium_util6.xml"/>
-                <profile url="file:etc/templates/symposium/symposium_util7.xml"/>
-                <profile url="file:etc/templates/symposium/symposium_util8.xml"/>
-                <profile url="file:etc/templates/symposium/symposium_util9.xml"/>
+                <profile url="file:etc/templates/symposium/Symposium-Profile1.xml"/>
+                <profile url="file:etc/templates/symposium/Symposium-Profile2.xml"/>
+                <profile url="file:etc/templates/symposium/Symposium-Profile3.xml"/>
+                <profile url="file:etc/templates/symposium/Symposium-Profile4.xml"/>
+                <profile url="file:etc/templates/symposium/Symposium-Profile5.xml"/>
+                <profile url="file:etc/templates/symposium/Symposium-Profile6.xml"/>
+                <profile url="file:etc/templates/symposium/Symposium-Profile7.xml"/>
+                <profile url="file:etc/templates/symposium/Symposium-Profile8.xml"/>
+                <profile url="file:etc/templates/symposium/Symposium-Profile9.xml"/>
             </domainRepItem>
         </domainRepItem>
         <protocolRepItem/>

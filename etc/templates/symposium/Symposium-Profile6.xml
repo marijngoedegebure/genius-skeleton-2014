@@ -56,17 +56,17 @@
 <item index="4" value="December" evaluation="1"> 
 </item> 
 </issue> 
-<weight index="1" value="0.28242902191607944"> 
+<weight index="1" value="0.28240698480558507"> 
 </weight> 
-<weight index="2" value="0.15902282643338192"> 
+<weight index="2" value="0.1591871462150967"> 
 </weight> 
-<weight index="3" value="0.01515823484428501"> 
+<weight index="3" value="0.015053607743805974"> 
 </weight> 
-<weight index="4" value="0.01711702153289083"> 
+<weight index="4" value="0.017045748272169002"> 
 </weight> 
-<weight index="5" value="0.013066758988381798"> 
+<weight index="5" value="0.013035575802144369"> 
 </weight> 
-<weight index="6" value="0.513206136284981"> 
+<weight index="6" value="0.513270937161199"> 
 </weight> 
 </objective> 
 <discount_factor value="1.0"> 
