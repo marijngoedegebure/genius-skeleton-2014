@@ -79,7 +79,7 @@ public class Preference {
 		}
 	}
 	
-	public void updatePreference(Bid bid) {
+	public void updatePreferenceOrder(Bid bid) {
 		// First update the sequence of the values of an issue
 		HashMap<Integer, Value> values = bid.getValues();
 		for(int i = 1; i <= values.size(); i++) {
@@ -101,6 +101,41 @@ public class Preference {
 					nodes.get(highestIndexWithoutFlag).setFlag(true);
 				}
 			}		
+		}		
+	}
+	
+	public void updateIssueWeights(ArrayList<Bid> previousBids, Bid newBid) {
+		Bid previousBid = previousBids.get(previousBids.size()-1);
+		ArrayList<Integer> changedIssues = getChangedIndices(previousBid, newBid);
+		
+		// Decrease the weights that have been changed
+		for(int i = 0; i < changedIssues.size(); i++) {
+			preferenceList.get(changedIssues.get(i)).weight-= 0.50/changedIssues.size();
 		}
+		
+		// Sum the weights
+		double sum = 0.0;
+		for(int i = 0; i< preferenceList.size(); i++) {
+			sum += preferenceList.get(i).weight;
+		}
+		// Normalize the weights
+		for(int i = 0; i< preferenceList.size(); i++) {
+			preferenceList.get(i).weight = preferenceList.get(i).weight/sum;
+		}
+	}
+	
+	public ArrayList<Integer> getChangedIndices(Bid previousBid, Bid newBid) {
+		ArrayList<Integer> indices = new ArrayList<Integer>();
+		HashMap<Integer, Value> valuesNewBid = newBid.getValues();
+		HashMap<Integer, Value> valuesPreviousBid = previousBid.getValues();
+		for(int i = 1; i <= valuesNewBid.size(); i++) {
+			ValueDiscrete valueNewBid = (ValueDiscrete) valuesNewBid.get(i);
+			ValueDiscrete valuePreviousBid = (ValueDiscrete) valuesPreviousBid.get(i);
+			if(!valueNewBid.getValue().equals(valuePreviousBid.getValue())) {
+				// i-1 to get the right index in the preferenceList
+				indices.add(i-1);
+			}
+		}
+		return indices;
 	}
 }

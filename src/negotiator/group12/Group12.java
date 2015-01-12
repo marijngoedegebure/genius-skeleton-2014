@@ -21,7 +21,7 @@ import negotiator.utility.UtilitySpace;
 public class Group12 extends AbstractNegotiationParty {
 	
 	ArrayList<Bid> previousBids = new ArrayList<Bid>();
-	ArrayList<Action> previousActions = new ArrayList<Action>();
+	ArrayList<BidWithSender> previousBidsWithSender = new ArrayList<BidWithSender>();
 	Preference preference;
 	UtilityOracle oracle;
 	int round = 0;
@@ -91,7 +91,6 @@ public class Group12 extends AbstractNegotiationParty {
 		System.out.println("Agent " + this.getPartyId() + " receives bid");
 		System.out.println(action.toString());
 		action.getAgent();
-		previousActions.add(action);
 		if(Action.getBidFromAction(action) != null) {
 			Bid bid = Action.getBidFromAction(action);
 			try {
@@ -100,15 +99,29 @@ public class Group12 extends AbstractNegotiationParty {
 					otherAgentsPreference.put(castedSender.partyId.toString(), pref);
 				}
 				else {
-					otherAgentsPreference.get(castedSender.partyId.toString()).updatePreference(bid);
+					ArrayList<Bid> previousbidsOfSender = getBidsOfSender(castedSender.partyId.toString());
+					otherAgentsPreference.get(castedSender.partyId.toString()).updatePreferenceOrder(bid);
+					otherAgentsPreference.get(castedSender.partyId.toString()).updateIssueWeights(previousbidsOfSender, bid);
 				}
 				Double utilityOfBid = this.utilitySpace.getUtility(bid);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			BidWithSender bidWS = new BidWithSender(bid, castedSender.partyId.toString());
+			previousBidsWithSender.add(bidWS);
 			previousBids.add(bid);
 		}
+	}
+
+	private ArrayList<Bid> getBidsOfSender(String sender) {
+		ArrayList<Bid> previousBids = new ArrayList<Bid>();
+		for(BidWithSender bidWS : previousBidsWithSender) {
+			if(bidWS.sender.equals(sender)) {
+				previousBids.add(bidWS.bid);
+			}
+		}
+		return previousBids;
 	}
 
 }
