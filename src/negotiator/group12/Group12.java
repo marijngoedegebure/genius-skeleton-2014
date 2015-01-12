@@ -42,7 +42,7 @@ public class Group12 extends AbstractNegotiationParty {
 		// Make sure that this constructor calls it's parent.
 		super(utilitySpace, deadlines, timeline, randomSeed);
 		preference = new Preference(utilitySpace);
-		oracle = new UtilityOracle(0.05);
+		oracle = new UtilityOracle(0.03);
 	}
 
 	/**
