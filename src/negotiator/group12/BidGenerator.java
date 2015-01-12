@@ -2,7 +2,13 @@ package negotiator.group12;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 
 import negotiator.Bid;
 import negotiator.issue.Value;
@@ -19,37 +25,48 @@ public class BidGenerator {
 		System.out.println("Begin combinations");
 		utilitySpace = ut;	
 		bidCombinations  = new ArrayList<Bid>();
-		bidCombinations = combinations(preference);
-		for(Bid bid: bidCombinations){
-			System.out.println(bid);
-		}
+		//bidCombinations = combinations(preference);
 		
 		System.out.println("End combinations");		
 		
+		List<Set<Node>> blocks = new ArrayList<Set<Node>>();
+		
+		for(int i = 0; i<preference.preferenceList.size();i++){
+			PreferenceBlock block = preference.preferenceList.get(i);
+			Set<Node> nodes = new HashSet<Node>();
+			for(int j = 0; j<block.nodeList.size();j++){
+				nodes.add(block.nodeList.get(j));
+			}
+			blocks.add(nodes);
+		}
+		
+		
+		Set<List<Node>> result = Sets.cartesianProduct(blocks);
+		Iterator<List<Node>> iterator = result.iterator();
+		while(iterator.hasNext()) {
+			List<Node> list = iterator.next();
+			HashMap<Integer, Value> hsmp = new HashMap<Integer, Value>();
+			Bid bid = new Bid();
+			for(int i = 0; i<list.size();i++){
+				Node node = list.get(i);
+				ValueDiscrete val = new ValueDiscrete(node.getName());
+				Value value = (Value) val;
+				hsmp.put(i+1, value);
+				
+				bid = new Bid(utilitySpace.getDomain(), hsmp);												
+			}			
+			bidCombinations.add(bid);
+		}		
+		
+		for(Bid bid:bidCombinations){
+			System.out.println(bid);
+		}
 		
 		ArrayList<Bid> filteredBidCombinations = filterCombos(acceptingValue,8);
 			
 		return filteredBidCombinations.get((int)filteredBidCombinations.size()/2);
 		
-		
-		/*
-		HashMap<Integer, Value> hsmp = new HashMap<Integer, Value>();
-		for(int i = 0; i < preference.preferenceList.size(); i++) {
-			Node n = preference.preferenceList.get(i).getHighestPreference();
-			ValueDiscrete val = new ValueDiscrete(n.getName());
-			Value value = (Value) val;
-			hsmp.put(i+1, value);
-		}
-		Bid bid = new Bid();
-		try {
-			bid = new Bid(ut.getDomain(), hsmp);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("bidgenerator tostring:" + bid.toString());
-		return bid;
-		*/
+
 		
 	}
 	
@@ -62,9 +79,9 @@ public class BidGenerator {
 			Bid bid = new Bid();
 			try {
 				bid = new Bid(utilitySpace.getDomain(), hsmp);	
-				ArrayList<Bid> bids = new ArrayList<Bid>();
-				bids.add(bid);
-				return bids;	
+				ArrayList<Bid> bidding = new ArrayList<Bid>();
+				bidding.add(bid);
+				return bidding;	
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -91,11 +108,15 @@ public class BidGenerator {
 	
 	public static ArrayList<Bid> concatenate(ArrayList<Bid> left, ArrayList<Bid> right){
 		ArrayList<Bid> bids = new ArrayList<Bid>();
+		
 		for(Bid bid: left){
-			bids.add(bid);
+			bids.add(bid);			
 		}
+		
+		
+		
 		for(Bid bid: right){
-			bids.add(bid);
+			bids.add(bid);			
 		}
 		return bids;
 	}
@@ -110,7 +131,6 @@ public class BidGenerator {
 			Bid bid = bidCombinations.get(i);
 			double value = utilitySpace.getUtility(bid);
 			if(minValue < value && maxValue > value){
-				//System.out.println(bid);
 				goodBidCombos.add(bid);
 				
 			}
