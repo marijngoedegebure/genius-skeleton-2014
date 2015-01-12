@@ -115,8 +115,8 @@ public class PreferenceBlock {
 	public int getHighestIndexWithoutFlag() {
 		int rtnIndex = -1;
 		for(int i = 0; i<nodeList.size(); i++) {
-			if(!nodeList.get(i).getFlag()) {
-				return rtnIndex;
+			if(nodeList.get(i).getFlag()) {
+				return i-1;
 			}
 		}
 		return rtnIndex;

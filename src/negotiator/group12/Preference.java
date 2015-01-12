@@ -94,10 +94,11 @@ public class Preference {
 					ArrayList<Node> nodes = preferBlock.nodeList;
 					int index = preferBlock.indexOf(value.getValue());
 					
-					for(int k = index; k < nodes.size()-1; k++) {
+					for(int k = index; k < nodes.size()-1 && !nodes.get(k+1).getFlag(); k++) {
 						nodes.get(k).setName(nodes.get(k+1).getName());
 					}
 					nodes.get(highestIndexWithoutFlag).setName(value.getValue());
+					nodes.get(highestIndexWithoutFlag).setFlag(true);
 				}
 			}		
 		}
