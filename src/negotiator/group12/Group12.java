@@ -24,6 +24,8 @@ public class Group12 extends AbstractNegotiationParty {
 	ArrayList<Action> previousActions = new ArrayList<Action>();
 	Preference preference;
 	HashMap<AgentID, Preference> otherAgentsPreference = new HashMap<AgentID, Preference>();
+	UtilityOracle oracle;
+	int round = 0;
 	
 	/**
 	 * Please keep this constructor. This is called by genius.
@@ -40,6 +42,7 @@ public class Group12 extends AbstractNegotiationParty {
 		// Make sure that this constructor calls it's parent.
 		super(utilitySpace, deadlines, timeline, randomSeed);
 		preference = new Preference(utilitySpace);
+		oracle = new UtilityOracle(0.05);
 	}
 
 	/**
@@ -52,9 +55,18 @@ public class Group12 extends AbstractNegotiationParty {
 	@Override
 	public Action chooseAction(List<Class> validActions) {
 		System.out.println("Agent in turn: " + this.getPartyId());
+		double acceptingValue = oracle.getAcceptingValue(round);
+		double bidValue = 0;
+		try {
+			bidValue = this.utilitySpace.getUtility(previousBids.get(previousBids.size()-1));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		round++;		
 		// with 50% chance, counter offer
 		// if we are the first party, also offer.
-		if (!validActions.contains(Accept.class) || Math.random() > 0.5) {
+		if (!validActions.contains(Accept.class) || acceptingValue > bidValue) {
 			Bid bid = BidGenerator.generateBid(this.utilitySpace, this.preference);
 			return new Offer(bid);
 		}
