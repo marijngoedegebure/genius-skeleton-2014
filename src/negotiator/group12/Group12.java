@@ -23,9 +23,9 @@ public class Group12 extends AbstractNegotiationParty {
 	ArrayList<Bid> previousBids = new ArrayList<Bid>();
 	ArrayList<Action> previousActions = new ArrayList<Action>();
 	Preference preference;
-	HashMap<AgentID, Preference> otherAgentsPreference = new HashMap<AgentID, Preference>();
 	UtilityOracle oracle;
 	int round = 0;
+	HashMap<String, Preference> otherAgentsPreference = new HashMap<String, Preference>();
 	
 	/**
 	 * Please keep this constructor. This is called by genius.
@@ -87,6 +87,7 @@ public class Group12 extends AbstractNegotiationParty {
 	@Override
 	public void receiveMessage(Object sender, Action action) {
 		// Here you can listen to other parties' messages
+		Group12 castedSender = (Group12) sender;
 		System.out.println("Agent " + this.getPartyId() + " receives bid");
 		System.out.println(action.toString());
 		action.getAgent();
@@ -94,13 +95,12 @@ public class Group12 extends AbstractNegotiationParty {
 		if(Action.getBidFromAction(action) != null) {
 			Bid bid = Action.getBidFromAction(action);
 			try {
-				if(!otherAgentsPreference.containsKey(this.getPartyId())) {
-					Preference pref = new Preference(this.utilitySpace);
-					pref.updatePreference(bid);
-					otherAgentsPreference.put(action.getAgent(), pref);
+				if(!otherAgentsPreference.containsKey(castedSender.partyId.toString())) {
+					Preference pref = new Preference(this.utilitySpace, bid);
+					otherAgentsPreference.put(castedSender.partyId.toString(), pref);
 				}
 				else {
-					otherAgentsPreference.get(this.getPartyId()).updatePreference(bid);
+					otherAgentsPreference.get(castedSender.partyId.toString()).updatePreference(bid);
 				}
 				Double utilityOfBid = this.utilitySpace.getUtility(bid);
 			} catch (Exception e) {

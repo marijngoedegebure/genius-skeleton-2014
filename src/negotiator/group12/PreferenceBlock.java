@@ -14,16 +14,24 @@ public class PreferenceBlock {
 		block = block.replace("}", "");
 		String[] splitted = block.split(", ");
 		for(String i : splitted){
+			Node node;
 			String[] nodeString = i.split("=");	
 			String value = nodeString[1].replace(",", ".");
-			Node node = new Node(nodeString[0],Double.parseDouble(value));
+			double val = Double.parseDouble(value);
+			if(val == 1.0) {
+				node = new Node(nodeString[0], val, true);
+			}
+			else {
+				node = new Node(nodeString[0], val, false);
+			}
 			nodeList.add(node);
 		}
+		orderNodesLowToHigh();
 	}
 	
 	public Node getHighestPreference() {
 		double max = 0;
-		Node rtn = new Node("", 0);
+		Node rtn = new Node("", 0, false);
 		for(Node n : nodeList) {
 			if(n.getValue() > max) {
 				rtn = n;
@@ -92,6 +100,26 @@ public class PreferenceBlock {
 	
 	public ArrayList<Node> getList(){
 		return nodeList;
+	}
+
+	public ArrayList<Node> getValuesWithoutFlag() {
+		ArrayList<Node> rtn = new ArrayList<Node>();
+		for(int i = 0; i<nodeList.size(); i++) {
+			if(!nodeList.get(i).getFlag()) {
+				rtn.add(nodeList.get(i));
+			}
+		}
+		return rtn;
+	}
+
+	public int getHighestIndexWithoutFlag() {
+		int rtnIndex = -1;
+		for(int i = 0; i<nodeList.size(); i++) {
+			if(!nodeList.get(i).getFlag()) {
+				return rtnIndex;
+			}
+		}
+		return rtnIndex;
 	}
 	
 }

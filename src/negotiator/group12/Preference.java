@@ -29,9 +29,29 @@ public class Preference {
 			Double weight = utilitySpace.getWeight(i);
 			Evaluator evalor = utilitySpace.getEvaluator(i);
 			System.out.println(evalor);
+			// Define each issue with every weight attached
 			PreferenceBlock prefBlock = new PreferenceBlock(evalor.toString(), issue.getName(), weight);
 			preferenceList.add(prefBlock);
 		}
+		// Possibility to randomize the other values of each issue.
+	}
+	
+	public Preference(UtilitySpace utilitySpace, Bid bid){
+		Domain domain = utilitySpace.getDomain();
+		int size = utilitySpace.getEvaluators().size();
+		System.out.println("size: "+size);
+		ArrayList<Objective> objectives = domain.getObjectives();
+		for(int i = 1; i<= size; i++){
+			IssueDiscrete issue = (IssueDiscrete) objectives.get(i);
+			double weight = 1.0/size;
+			Evaluator evalor = utilitySpace.getEvaluator(i);
+			System.out.println(evalor);
+			// Define an issue with all weights the same 
+			PreferenceBlock prefBlock = new PreferenceBlock(evalor.toString(), issue.getName(), weight);
+			preferenceList.add(prefBlock);
+		}
+		setHighestIssuePreference(bid);
+		// Possibility to randomize the other values of each issue.
 	}
 	
 	/**
@@ -39,14 +59,14 @@ public class Preference {
 	 * For now it thinks that the new bid is all top priority
 	 * @param bid
 	 */
-	public void updatePreference(Bid bid) {
+	public void setHighestIssuePreference(Bid bid) {
 		HashMap<Integer, Value> values = bid.getValues();
 		for(int i = 1; i <= values.size(); i++) {
 			ValueDiscrete value = (ValueDiscrete) values.get(i);
 			PreferenceBlock preferBlock = preferenceList.get(i-1);
 			Node currentHighest = preferBlock.getHighestPreference();
 			if(!currentHighest.getName().equals(value.getValue())) {
-				preferBlock.orderNodesLowToHigh();
+				//preferBlock.orderNodesLowToHigh();
 				ArrayList<Node> nodes = preferBlock.nodeList;
 				
 				int index = preferBlock.indexOf(value.getValue());
@@ -56,6 +76,30 @@ public class Preference {
 				}
 				nodes.get(nodes.size()-1).setName(value.getValue());
 			}			
+		}
+	}
+	
+	public void updatePreference(Bid bid) {
+		// First update the sequence of the values of an issue
+		HashMap<Integer, Value> values = bid.getValues();
+		for(int i = 1; i <= values.size(); i++) {
+			ValueDiscrete value = (ValueDiscrete) values.get(i);
+			PreferenceBlock preferBlock = preferenceList.get(i-1);
+			ArrayList<Node> nodesWithoutFlag = preferBlock.getValuesWithoutFlag();
+			for(int j = 0; i< nodesWithoutFlag.size(); i++) {
+				// If not flagged yet, flag it and set it to the next value after the last flagged
+				if(nodesWithoutFlag.get(i).getName().equals(value.getValue())) {
+					int highestIndexWithoutFlag = preferBlock.getHighestIndexWithoutFlag();
+					
+					ArrayList<Node> nodes = preferBlock.nodeList;
+					int index = preferBlock.indexOf(value.getValue());
+					
+					for(int k = index; k < nodes.size()-1; k++) {
+						nodes.get(k).setName(nodes.get(k+1).getName());
+					}
+					nodes.get(highestIndexWithoutFlag).setName(value.getValue());
+				}
+			}		
 		}
 	}
 }
