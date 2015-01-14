@@ -42,7 +42,7 @@ public class Group12 extends AbstractNegotiationParty {
 		// Make sure that this constructor calls it's parent.
 		super(utilitySpace, deadlines, timeline, randomSeed);
 		preference = new Preference(utilitySpace);
-		oracle = new UtilityOracle(0.03);
+		oracle = new UtilityOracle(0.03);		
 	}
 
 	/**
@@ -68,10 +68,10 @@ public class Group12 extends AbstractNegotiationParty {
 		round++;		
 		// with 50% chance, counter offer
 		// if we are the first party, also offer.
-		if (!validActions.contains(Accept.class) || acceptingValue > bidValue) {
+		if (!validActions.contains(Accept.class) || acceptingValue >= bidValue) {
 			Bid bid = new Bid();
 			try {
-				bid = BidGenerator.generateBid(this.utilitySpace, this.preference, acceptingValue);
+				bid = BidGenerator.generateBid(this.utilitySpace, this.preference, acceptingValue,this.otherAgentsPreference);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

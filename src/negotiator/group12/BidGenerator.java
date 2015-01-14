@@ -2,7 +2,9 @@ package negotiator.group12;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+
 import negotiator.Bid;
 import negotiator.issue.Value;
 import negotiator.issue.ValueDiscrete;
@@ -12,13 +14,22 @@ public class BidGenerator {
 	static ArrayList<Bid> bidCombinations;
 	static UtilitySpace utilitySpace;
 	
-	public static Bid generateBid(UtilitySpace ut, Preference preference,double acceptingValue) throws Exception {
-		
-		
+	public static Bid generateBid(UtilitySpace ut, Preference preference,double acceptingValue,HashMap<String, Preference> otherAgentsPreference) throws Exception {
 		System.out.println("Begin combinations");
 		utilitySpace = ut;	
-		bidCombinations  = new ArrayList<Bid>();	
+		bidCombinations  = new ArrayList<Bid>();
 		
+		cartesianProductW(preference);
+				
+		ArrayList<Bid> filteredBidCombinations = filterCombos(acceptingValue,0.05);
+		
+		Bid returnBid = new Bid();
+		returnBid = getBestBid(filteredBidCombinations,ut,preference,otherAgentsPreference);
+			
+		return returnBid;
+	}
+	
+	private static void cartesianProductW(Preference preference) throws Exception{
 		List<List<Node>> blocks = new ArrayList<List<Node>>();
 		
 		for(int i = 0; i<preference.preferenceList.size();i++){
@@ -44,10 +55,6 @@ public class BidGenerator {
 			}			
 			bidCombinations.add(bid);
 		}
-		
-		ArrayList<Bid> filteredBidCombinations = filterCombos(acceptingValue,0.05);
-			
-		return filteredBidCombinations.get((int)filteredBidCombinations.size()/2);
 	}
 	
 	protected static <T> List<List<T>> cartesianProduct(List<List<T>> lists) {
@@ -69,6 +76,38 @@ public class BidGenerator {
 	    }
 	    return resultLists;
 	}
+	
+	private static Bid getBestBid(ArrayList<Bid> bids,UtilitySpace ut, Preference preference,HashMap<String, Preference> otherAgentsPreference) throws Exception{		
+		ArrayList<ArrayList<Double>> list = new ArrayList<ArrayList<Double>>();
+		for(Bid bid:bids){				
+			ArrayList<Double> bidValues = new ArrayList<Double>();
+			for (HashMap.Entry<String, Preference> entry : otherAgentsPreference.entrySet()){				
+				Preference p = (Preference) entry.getValue();		        		        
+		        double bidValueP = p.getUtilityValue(bid);
+		        bidValues.add(bidValueP);
+		    }
+		}
+				
+		ArrayList<Double> averageValueOfBid = new ArrayList<Double>();
+		for(ArrayList<Double> listOfABid:list){
+			double averageWeight= 0;
+			for(double bidListValues:listOfABid){
+				averageWeight +=bidListValues;
+			}
+			averageValueOfBid.add(averageWeight);
+		}
+		
+		int returnIndex = 0;
+		double biggest = 0;
+		for(int i = 0; i<averageValueOfBid.size();i++){
+			if(averageValueOfBid.get(i) > biggest){
+				biggest = averageValueOfBid.get(i);
+				returnIndex = i;
+			}
+		}		
+		return bids.get(returnIndex);
+	}
+	
 	
 	public static ArrayList<Bid> filterCombos(double acceptingValue, double range) throws Exception{
 		ArrayList<Bid> goodBidCombos = new ArrayList<Bid>();

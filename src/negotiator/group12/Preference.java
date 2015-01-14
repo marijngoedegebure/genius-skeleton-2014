@@ -138,4 +138,21 @@ public class Preference {
 		}
 		return indices;
 	}
+	
+	public double getUtilityValue(Bid bid){
+		HashMap<Integer, Value> bidvalues = bid.getValues();
+		double returnUtility = 0;
+		for(PreferenceBlock block: preferenceList){
+			double weight = block.weight;
+			for (HashMap.Entry<Integer, Value> entry : bidvalues.entrySet()){
+				Value value = entry.getValue();
+				for(Node node:block.nodeList){
+					if(node.getName() == value.toString()){
+						returnUtility += node.getValue()* weight;
+					}
+				}
+			}			
+		}
+		return returnUtility;
+	}
 }
