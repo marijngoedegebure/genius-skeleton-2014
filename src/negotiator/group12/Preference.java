@@ -3,6 +3,7 @@ package negotiator.group12;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import negotiator.Bid;
@@ -144,7 +145,7 @@ public class Preference {
 		double returnUtility = 0;
 		for(PreferenceBlock block: preferenceList){
 			double weight = block.weight;
-			for (HashMap.Entry<Integer, Value> entry : bidvalues.entrySet()){
+			for (Map.Entry<Integer, Value> entry : bidvalues.entrySet()){
 				Value value = entry.getValue();
 				for(Node node:block.nodeList){
 					if(node.getName() == value.toString()){

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import negotiator.Bid;
 import negotiator.issue.Value;
@@ -118,7 +119,7 @@ public class BidGenerator {
 		ArrayList<ArrayList<Double>> list = new ArrayList<ArrayList<Double>>();
 		for(Bid bid:bids){				
 			ArrayList<Double> bidValues = new ArrayList<Double>();
-			for (HashMap.Entry<String, Preference> entry : otherAgentsPreference.entrySet()){				
+			for (Map.Entry<String, Preference> entry : otherAgentsPreference.entrySet()){				
 				Preference p = (Preference) entry.getValue();		        		        
 		        double bidValueP = p.getUtilityValue(bid);
 		        bidValues.add(bidValueP);
