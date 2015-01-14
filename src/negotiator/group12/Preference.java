@@ -17,9 +17,20 @@ import negotiator.utility.Evaluator;
 import negotiator.utility.UtilitySpace;
 import negotiator.xml.SimpleElement;
 
+/**
+ * The Preference class will hold the issues, their weights and for each 
+ * issue their values and the order of these values.
+ *
+ */
 public class Preference {
 	ArrayList<PreferenceBlock> preferenceList = new ArrayList<PreferenceBlock>();
-			
+	
+	/**
+	 * First constructor for the Preference class, this is to create a Preference profile for the agent
+	 * that is currently in turn. This Preference object will not be updated. The Utilityspace is used
+	 * to fill the values of each issue and their order.
+	 * @param utilitySpace of the player in turn
+	 */
 	public Preference(UtilitySpace utilitySpace){
 		Domain domain = utilitySpace.getDomain();
 		int size = utilitySpace.getEvaluators().size();
@@ -37,6 +48,14 @@ public class Preference {
 		// Possibility to randomize the other values of each issue.
 	}
 	
+	/**
+	 * This constructor is used to create a Preference object for an Agent of which you have received a
+	 * bid for the first time. The utilitySpace of the agent receiving the message will be used for the initial
+	 * issue, value and order setup. This will be later updated using the bids of the agent to which this preference
+	 * belongs to.
+	 * @param utilitySpace of the agent receiving the message
+	 * @param bid
+	 */
 	public Preference(UtilitySpace utilitySpace, Bid bid){
 		Domain domain = utilitySpace.getDomain();
 		int size = utilitySpace.getEvaluators().size();
@@ -57,7 +76,8 @@ public class Preference {
 	
 	/**
 	 * Updates the preference of a party given the current bid.
-	 * For now it thinks that the new bid is all top priority
+	 * It considers the first bid to be the agents highest utility bid.
+	 * It will not take into account the nodes flagged value for this first bid.
 	 * @param bid
 	 */
 	public void setHighestIssuePreference(Bid bid) {
@@ -80,6 +100,13 @@ public class Preference {
 		}
 	}
 	
+	/**
+	 * This method updates the preference order of an already initialized preference object
+	 * This will used the flagged status to determine what nodes have alreay been set.
+	 * It will determine what values have been changed and were not yet flagged and will set those in
+	 * the appropriate order and update their flagged status.
+	 * @param bid
+	 */
 	public void updatePreferenceOrder(Bid bid) {
 		// First update the sequence of the values of an issue
 		HashMap<Integer, Value> values = bid.getValues();
@@ -105,6 +132,12 @@ public class Preference {
 		}		
 	}
 	
+	/**
+	 * This method updates the issue weights given the previous bid and the new bid.
+	 * Each weight of an issue that has been changed will be decreased and then normalized. 
+	 * @param previousBids
+	 * @param newBid
+	 */
 	public void updateIssueWeights(ArrayList<Bid> previousBids, Bid newBid) {
 		Bid previousBid = previousBids.get(previousBids.size()-1);
 		ArrayList<Integer> changedIssues = getChangedIndices(previousBid, newBid);
@@ -125,6 +158,12 @@ public class Preference {
 		}
 	}
 	
+	/**
+	 * Method that returns the changed indices by comparing the previous bid and the new bid
+	 * @param previousBid
+	 * @param newBid
+	 * @return list of integers with the changed indices
+	 */
 	public ArrayList<Integer> getChangedIndices(Bid previousBid, Bid newBid) {
 		ArrayList<Integer> indices = new ArrayList<Integer>();
 		HashMap<Integer, Value> valuesNewBid = newBid.getValues();
@@ -140,6 +179,13 @@ public class Preference {
 		return indices;
 	}
 	
+	/**
+	 * Calculates the utility value for a bid given the current preference profile.
+	 * This gives the agent the possibility to calculate other agents utilities without knowing their
+	 * exact preference profile.
+	 * @param bid
+	 * @return double
+	 */
 	public double getUtilityValue(Bid bid){
 		HashMap<Integer, Value> bidvalues = bid.getValues();
 		double returnUtility = 0;

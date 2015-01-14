@@ -2,11 +2,21 @@ package negotiator.group12;
 
 import java.util.ArrayList;
 
+/**
+ * PreferenceBlock is our representation of the Issue
+ *
+ */
 public class PreferenceBlock {
 	ArrayList<Node> nodeList = new ArrayList<Node>();
 	String issue;
 	Double weight;
 	
+	/**
+	 * Constructor for the PreferenceBlock
+	 * @param block, string to parse to get the values of the issue out.
+	 * @param issueName
+	 * @param weight
+	 */
 	public PreferenceBlock(String block, String issueName, Double weight){
 		this.issue = issueName;
 		this.weight = weight;
@@ -29,6 +39,10 @@ public class PreferenceBlock {
 		orderNodesLowToHigh();
 	}
 	
+	/**
+	 * Returns the node that is currently the highest for this issue
+	 * @return
+	 */
 	public Node getHighestPreference() {
 		double max = 0;
 		Node rtn = new Node("", 0, false);
@@ -41,6 +55,11 @@ public class PreferenceBlock {
 		return rtn;
 	}
 	
+	/**
+	 * Searches the nodeList of this issue for the value name of a node
+	 * @param s
+	 * @return index of the found node
+	 */
 	public int indexOf(String s) {
 		int index = 0;
 		for(int i = 0; i < nodeList.size(); i++) {
@@ -51,10 +70,18 @@ public class PreferenceBlock {
 		return index;
 	}
 	
+	/**
+	 * Method to order the issue's nodes from low to high
+	 */
 	public void orderNodesLowToHigh() {
 		nodeList = quicksort(nodeList);
 	}
-	
+
+	/**
+	 * Basic quicksort algorithm
+	 * @param input
+	 * @return sorted arraylist of nodes
+	 */
 	public ArrayList<Node> quicksort(ArrayList<Node> input) {
 		if(input.size() <= 1){
 			return input;
@@ -81,6 +108,13 @@ public class PreferenceBlock {
 		return concatenate(quicksort(less), pivot, quicksort(greater));
 	}
 	
+	/**
+	 * Helper method for the quicksort algorithm, is used to concatenate the two arraylists to eachother
+	 * @param less
+	 * @param pivot
+	 * @param greater
+	 * @return concatenated arraylist
+	 */
 	private ArrayList<Node> concatenate(ArrayList<Node> less, Node pivot, ArrayList<Node> greater){
 		
 		ArrayList<Node> list = new ArrayList<Node>();
@@ -98,10 +132,18 @@ public class PreferenceBlock {
 		return list;
 	}
 	
+	/**
+	 * Nodelist getter
+	 * @return
+	 */
 	public ArrayList<Node> getList(){
 		return nodeList;
 	}
 
+	/**
+	 * Method to retrieve all the nodes that have not yet been flagged
+	 * @return
+	 */
 	public ArrayList<Node> getValuesWithoutFlag() {
 		ArrayList<Node> rtn = new ArrayList<Node>();
 		for(int i = 0; i<nodeList.size(); i++) {
@@ -112,6 +154,10 @@ public class PreferenceBlock {
 		return rtn;
 	}
 
+	/**
+	 * Method to retrieve the index of the highest ordered value that is not yet flagged.
+	 * @return
+	 */
 	public int getHighestIndexWithoutFlag() {
 		int rtnIndex = -1;
 		for(int i = 0; i<nodeList.size(); i++) {
