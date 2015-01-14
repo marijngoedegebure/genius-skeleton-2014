@@ -41,8 +41,8 @@ public class Group12 extends AbstractNegotiationParty {
 				  long randomSeed) {
 		// Make sure that this constructor calls it's parent.
 		super(utilitySpace, deadlines, timeline, randomSeed);
-		preference = new Preference(utilitySpace);
-		oracle = new UtilityOracle(0.03);		
+		preference = new Preference(utilitySpace);		
+		oracle = new UtilityOracle(0.005);		
 	}
 
 	/**
@@ -53,8 +53,7 @@ public class Group12 extends AbstractNegotiationParty {
 	 * @return The chosen action.
 	 */
 	@Override
-	public Action chooseAction(List<Class> validActions) {
-		System.out.println("Agent in turn: " + this.getPartyId());
+	public Action chooseAction(List<Class> validActions) {		
 		double acceptingValue = oracle.getAcceptingValue(round);
 		double bidValue = 0;
 		if(previousBids.size() != 0){
@@ -95,9 +94,7 @@ public class Group12 extends AbstractNegotiationParty {
 	@Override
 	public void receiveMessage(Object sender, Action action) {
 		// Here you can listen to other parties' messages
-		Group12 castedSender = (Group12) sender;
-		System.out.println("Agent " + this.getPartyId() + " receives bid");
-		System.out.println(action.toString());
+		Group12 castedSender = (Group12) sender;		
 		action.getAgent();
 		if(Action.getBidFromAction(action) != null) {
 			Bid bid = Action.getBidFromAction(action);

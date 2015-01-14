@@ -14,20 +14,41 @@ public class BidGenerator {
 	static ArrayList<Bid> bidCombinations;
 	static UtilitySpace utilitySpace;
 	
+	/**
+	 * This function returns the best bid that an agent can make with regards to other agents.
+	 * @param ut
+	 * @param preference
+	 * @param acceptingValue
+	 * @param otherAgentsPreference
+	 * @return
+	 * @throws Exception
+	 */
+	
 	public static Bid generateBid(UtilitySpace ut, Preference preference,double acceptingValue,HashMap<String, Preference> otherAgentsPreference) throws Exception {
 		System.out.println("Begin combinations");
 		utilitySpace = ut;	
 		bidCombinations  = new ArrayList<Bid>();
 		
+		if(acceptingValue == 0.9){
+			return ut.getMaxUtilityBid();
+		}
+		
 		cartesianProductW(preference);
 				
-		ArrayList<Bid> filteredBidCombinations = filterCombos(acceptingValue,0.05);
+		ArrayList<Bid> filteredBidCombinations = filterCombos(acceptingValue,0.1);
 		
 		Bid returnBid = new Bid();
 		returnBid = getBestBid(filteredBidCombinations,ut,preference,otherAgentsPreference);
 			
 		return returnBid;
 	}
+	
+	/**
+	 * A wrapper function for the cartesianProduct of a agents preferences.
+	 * Will make a List<List<Node>> data structured that will be used as input for cartesianProduct
+	 * @param preference
+	 * @throws Exception
+	 */
 	
 	private static void cartesianProductW(Preference preference) throws Exception{
 		List<List<Node>> blocks = new ArrayList<List<Node>>();
@@ -57,6 +78,11 @@ public class BidGenerator {
 		}
 	}
 	
+	/**
+	 * Will return a cartesianProduct list of the input list
+	 * @param lists
+	 * @return
+	 */
 	protected static <T> List<List<T>> cartesianProduct(List<List<T>> lists) {
 	    List<List<T>> resultLists = new ArrayList<List<T>>();
 	    if (lists.size() == 0) {
@@ -77,6 +103,17 @@ public class BidGenerator {
 	    return resultLists;
 	}
 	
+	
+	/**
+	 * Returns the best bid of the bid list, will calculate all the values of the bids and takes
+	 * the best average bid for everybody and returns that Bid.
+	 * @param bids
+	 * @param ut
+	 * @param preference
+	 * @param otherAgentsPreference
+	 * @return
+	 * @throws Exception
+	 */
 	private static Bid getBestBid(ArrayList<Bid> bids,UtilitySpace ut, Preference preference,HashMap<String, Preference> otherAgentsPreference) throws Exception{		
 		ArrayList<ArrayList<Double>> list = new ArrayList<ArrayList<Double>>();
 		for(Bid bid:bids){				
@@ -108,7 +145,14 @@ public class BidGenerator {
 		return bids.get(returnIndex);
 	}
 	
-	
+	/**
+	 * Returns an filtered list of the bidcombinations. The filter is an range from the accepting value
+	 * to a range percentage above the accepting value.
+	 * @param acceptingValue
+	 * @param range
+	 * @return
+	 * @throws Exception
+	 */
 	public static ArrayList<Bid> filterCombos(double acceptingValue, double range) throws Exception{
 		ArrayList<Bid> goodBidCombos = new ArrayList<Bid>();
 		
