@@ -112,7 +112,7 @@ public class BidGenerator {
 	public static ArrayList<Bid> filterCombos(double acceptingValue, double range) throws Exception{
 		ArrayList<Bid> goodBidCombos = new ArrayList<Bid>();
 		
-		double minValue = acceptingValue - (acceptingValue*range);
+		double minValue = acceptingValue ;
 		double maxValue = acceptingValue + (acceptingValue*range);
 				
 		for(int i = 0; i<bidCombinations.size();i++){

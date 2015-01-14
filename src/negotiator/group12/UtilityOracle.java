@@ -8,6 +8,6 @@ public class UtilityOracle {
 	}
 	
 	public double getAcceptingValue(int round){
-		return (0.95 - (round * decrease));
+		return (0.90 - (round * decrease));
 	}
 }
