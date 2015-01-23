@@ -15,7 +15,7 @@
             <!--<partyRepItem description="Agent for group 9" classPath="negotiator.group9.Group9" partyName="Group 9" protocolClassPath="negotiator.protocol.AlternatingOfferCounterOfferProtocol"/>-->
             <partyRepItem description="Agent for group 10" classPath="negotiator.group10.Group10" partyName="Group 10" protocolClassPath="negotiator.protocol.AlternatingOfferCounterOfferProtocol"/>
             <partyRepItem description="Agent for group 11" classPath="negotiator.group11.Group11" partyName="Group 11" protocolClassPath="negotiator.protocol.AlternatingOfferCounterOfferProtocol"/>
-            <!--<partyRepItem description="Agent for group 12" classPath="negotiator.group12.Group12" partyName="Group 12" protocolClassPath="negotiator.protocol.AlternatingOfferCounterOfferProtocol"/>-->
+            <partyRepItem description="Agent for group 12" classPath="negotiator.group12.Group12" partyName="Group 12" protocolClassPath="negotiator.protocol.AlternatingOfferCounterOfferProtocol"/>
         </partyRepItems>
         <domainRepItem/>
         <protocolRepItem/>

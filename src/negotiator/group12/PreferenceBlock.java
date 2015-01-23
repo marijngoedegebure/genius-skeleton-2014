@@ -21,12 +21,16 @@ public class PreferenceBlock {
 		this.issue = issueName;
 		this.weight = weight;
 		block = block.replace("{", "");
-		block = block.replace("}", "");
-		String[] splitted = block.split(", ");
+		block = block.replace("}", "");		
+		String[] splitted = block.split("(?<=[0-9]{2})");
 		for(String i : splitted){
 			Node node;
-			String[] nodeString = i.split("=");	
+			String[] nodeString = i.split("=");			
+			if(nodeString[0].charAt(0) == ','){
+				nodeString[0] = nodeString[0].substring(2);
+			}
 			String value = nodeString[1].replace(",", ".");
+			
 			double val = Double.parseDouble(value);
 			if(val == 1.0) {
 				node = new Node(nodeString[0], val, true);

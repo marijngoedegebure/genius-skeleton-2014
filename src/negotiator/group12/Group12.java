@@ -13,6 +13,7 @@ import negotiator.actions.Accept;
 import negotiator.actions.Action;
 import negotiator.actions.Offer;
 import negotiator.parties.AbstractNegotiationParty;
+import negotiator.protocol.Protocol;
 import negotiator.utility.UtilitySpace;
 
 /**
@@ -94,26 +95,28 @@ public class Group12 extends AbstractNegotiationParty {
 	@Override
 	public void receiveMessage(Object sender, Action action) {
 		// Here you can listen to other parties' messages
-		Group12 castedSender = (Group12) sender;		
-		action.getAgent();
+		super.receiveMessage(sender, action);
+		
+		System.out.println(sender.toString());
+		
 		if(Action.getBidFromAction(action) != null) {
 			Bid bid = Action.getBidFromAction(action);
 			try {
-				if(!otherAgentsPreference.containsKey(castedSender.partyId.toString())) {
+				if(!otherAgentsPreference.containsKey(sender.toString())) {
 					Preference pref = new Preference(this.utilitySpace, bid);
-					otherAgentsPreference.put(castedSender.partyId.toString(), pref);
+					otherAgentsPreference.put(sender.toString(), pref);
 				}
 				else {
-					ArrayList<Bid> previousbidsOfSender = getBidsOfSender(castedSender.partyId.toString());
-					otherAgentsPreference.get(castedSender.partyId.toString()).updatePreferenceOrder(bid);
-					otherAgentsPreference.get(castedSender.partyId.toString()).updateIssueWeights(previousbidsOfSender, bid);
+					ArrayList<Bid> previousbidsOfSender = getBidsOfSender(sender.toString());
+					otherAgentsPreference.get(sender.toString()).updatePreferenceOrder(bid);
+					otherAgentsPreference.get(sender.toString()).updateIssueWeights(previousbidsOfSender, bid);
 				}
 				Double utilityOfBid = this.utilitySpace.getUtility(bid);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			BidWithSender bidWS = new BidWithSender(bid, castedSender.partyId.toString());
+			BidWithSender bidWS = new BidWithSender(bid,sender.toString());
 			previousBidsWithSender.add(bidWS);
 			previousBids.add(bid);
 		}
