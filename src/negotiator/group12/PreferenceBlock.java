@@ -21,8 +21,8 @@ public class PreferenceBlock {
 		this.issue = issueName;
 		this.weight = weight;
 		block = block.replace("{", "");
-		block = block.replace("}", "");		
-		String[] splitted = block.split("(?<=[0-9]{2})");
+		block = block.replace("}", "");				
+		String[] splitted = block.split("(?<=,[0-9]{2})");
 		for(String i : splitted){
 			Node node;
 			String[] nodeString = i.split("=");			
