@@ -1,6 +1,10 @@
 package negotiator.group12;
 
 import java.util.ArrayList;
+import java.util.Set;
+
+import negotiator.issue.ValueDiscrete;
+import negotiator.utility.EvaluatorDiscrete;
 
 /**
  * PreferenceBlock is our representation of the Issue
@@ -17,30 +21,35 @@ public class PreferenceBlock {
 	 * @param issueName
 	 * @param weight
 	 */
-	public PreferenceBlock(String block, String issueName, Double weight){
+	public PreferenceBlock(EvaluatorDiscrete evaluator, String issueName, Double weight){
 		this.issue = issueName;
 		this.weight = weight;
-		block = block.replace("{", "");
-		block = block.replace("}", "");				
-		String[] splitted = block.split("(?<=,[0-9]{2})");
-		for(String i : splitted){
-			Node node;
-			String[] nodeString = i.split("=");			
-			if(nodeString[0].charAt(0) == ','){
-				nodeString[0] = nodeString[0].substring(2);
-			}
-			String value = nodeString[1].replace(",", ".");
-			
-			double val = Double.parseDouble(value);
-			if(val == 1.0) {
-				node = new Node(nodeString[0], val, true);
-			}
-			else {
-				node = new Node(nodeString[0], val, false);
-			}
+		Set<ValueDiscrete> evalSet = evaluator.getValues();
+		Object[] evalArray = evalSet.toArray();
+		for(Object i : evalArray) {
+			ValueDiscrete description = (ValueDiscrete) i;
+			Double val = evaluator.getDoubleValue(description);
+			Node node = new Node(description.getValue(), val, false);
 			nodeList.add(node);
 		}
 		orderNodesLowToHigh();
+	}
+	
+	public void normalizeNodeValues() {
+		Double sum = sumNodeValues();
+		if(sum > 0) {
+			for(int i = 0;i<nodeList.size();i++) {
+				nodeList.get(i).setValue(nodeList.get(i).getValue()/sum);
+			}
+		}
+	}
+	
+	public Double sumNodeValues() {
+		Double sum = 0.0;
+		for(int i = 0; i<nodeList.size();i++) {
+			sum += nodeList.get(i).getValue();
+		}
+		return sum;
 	}
 	
 	/**
@@ -51,7 +60,7 @@ public class PreferenceBlock {
 		double max = 0;
 		Node rtn = new Node("", 0, false);
 		for(Node n : nodeList) {
-			if(n.getValue() > max) {
+			if(n.getValue() >= max) {
 				rtn = n;
 				max = n.getValue();
 			}

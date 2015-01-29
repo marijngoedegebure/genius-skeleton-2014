@@ -14,6 +14,7 @@ import negotiator.issue.Objective;
 import negotiator.issue.Value;
 import negotiator.issue.ValueDiscrete;
 import negotiator.utility.Evaluator;
+import negotiator.utility.EvaluatorDiscrete;
 import negotiator.utility.UtilitySpace;
 import negotiator.xml.SimpleElement;
 
@@ -40,9 +41,12 @@ public class Preference {
 			IssueDiscrete issue = (IssueDiscrete) objectives.get(i);
 			Double weight = utilitySpace.getWeight(i);
 			Evaluator evalor = utilitySpace.getEvaluator(i);
-			System.out.println(evalor);
+			EvaluatorDiscrete evalorDis = (EvaluatorDiscrete) evalor;
 			// Define each issue with every weight attached
-			PreferenceBlock prefBlock = new PreferenceBlock(evalor.toString(), issue.getName(), weight);
+			PreferenceBlock prefBlock = new PreferenceBlock(evalorDis, issue.getName(), weight);
+			prefBlock.normalizeNodeValues();
+			Node highest = prefBlock.getHighestPreference();
+			highest.setFlag(true);
 			preferenceList.add(prefBlock);
 		}
 		// Possibility to randomize the other values of each issue.
@@ -66,8 +70,12 @@ public class Preference {
 			double weight = 1.0/size;
 			Evaluator evalor = utilitySpace.getEvaluator(i);
 			System.out.println(evalor);
+			EvaluatorDiscrete evalorDis = (EvaluatorDiscrete) evalor;
 			// Define an issue with all weights the same 
-			PreferenceBlock prefBlock = new PreferenceBlock(evalor.toString(), issue.getName(), weight);
+			PreferenceBlock prefBlock = new PreferenceBlock(evalorDis, issue.getName(), weight);
+			prefBlock.normalizeNodeValues();
+			Node highest = prefBlock.getHighestPreference();
+			highest.setFlag(true);
 			preferenceList.add(prefBlock);
 		}
 		setHighestIssuePreference(bid);
