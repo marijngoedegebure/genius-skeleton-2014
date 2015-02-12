@@ -27,6 +27,8 @@ public class Group12 extends AbstractNegotiationParty {
 	UtilityOracle oracle;
 	int round = 0;
 	HashMap<String, Preference> otherAgentsPreference = new HashMap<String, Preference>();
+	Timeline timeline;
+	int timeLimit;	
 	
 	/**
 	 * Please keep this constructor. This is called by genius.
@@ -42,8 +44,14 @@ public class Group12 extends AbstractNegotiationParty {
 				  long randomSeed) {
 		// Make sure that this constructor calls it's parent.
 		super(utilitySpace, deadlines, timeline, randomSeed);
-		preference = new Preference(utilitySpace);		
-		oracle = new UtilityOracle(0.005);		
+		preference = new Preference(utilitySpace);	
+		
+		this.timeline = timeline;
+		timeLimit = (int) timeline.getTotalTime();
+		
+		double utilityValue = calculateUtilityValue(timeLimit);
+		oracle = new UtilityOracle(utilityValue);	
+		
 	}
 
 	/**
@@ -65,9 +73,12 @@ public class Group12 extends AbstractNegotiationParty {
 				e.printStackTrace();
 			}
 		}
-		round++;		
-		// with 50% chance, counter offer
-		// if we are the first party, also offer.
+		round++;
+		
+		if((round == timeLimit-2 ||  round == timeLimit-2 )&& acceptableLastOffer(bidValue, acceptingValue)){
+			return new Accept();
+		}
+
 		if (!validActions.contains(Accept.class) || acceptingValue >= bidValue) {
 			Bid bid = new Bid();
 			try {
@@ -131,5 +142,21 @@ public class Group12 extends AbstractNegotiationParty {
 		}
 		return previousBids;
 	}
+	
+	
+	private boolean acceptableLastOffer(double bidvalue, double acceptingValue){
+		double bidvalueBottom = bidvalue - 2*(bidvalue/10);
+		
+		if(bidvalueBottom > acceptingValue){
+			return true;
+		}
+		else{
+			return false;
+		}		
+	}
 
+	private double calculateUtilityValue(int timeline){		
+		double retUtility = 0.5/timeline;
+		return retUtility;
+	}
 }
