@@ -14,7 +14,7 @@ import java.util.List;
 public class Concatonator {
 
 	public static void main(String[]args) throws IOException{
-		String path = "./ImprovementResults/AmountOfRounds50/TramDomain/"; 		
+		String path = "./ImprovementResults/AmountOfRounds200/PartyDomain/"; 		
 		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles(new MyFilter()); 
 		
@@ -39,19 +39,19 @@ public class Concatonator {
 	}
 	
 	public static void addFileToCollaborative(File file) throws IOException{
-		Path file1path =  Paths.get("Collaborative Tram.csv");
+		Path file1path =  Paths.get("Collaborative Party.csv");
 		Path file2path = file.toPath();
 		combine(file1path,file2path);
 	}
 	
 	public static void addFileToMixed(File file) throws IOException{
-		Path file1path =  Paths.get("Mixed Tram.csv");
+		Path file1path =  Paths.get("Mixed Party.csv");
 		Path file2path = file.toPath();
 		combine(file1path,file2path);
 	}
 	
 	public static void addFileToCompetitive(File file) throws IOException{
-		Path file1path =  Paths.get("Competitive Tram.csv");
+		Path file1path =  Paths.get("Competitive Party.csv");
 		Path file2path = file.toPath();
 		combine(file1path,file2path);
 	}
