@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class TournamentLogCalculator {
 	// Need to be adjusted to have the
-	public static String[] logNames = {
+/*	public static String[] logNames = {
 		"ConvertedLogGroup6CollaborativeProfile123Large.csv",
 		"ConvertedLogGroup6CollaborativeProfile123Small.csv",
 		"ConvertedLogGroup6MixedProfile456Large.csv",
@@ -23,6 +23,15 @@ public class TournamentLogCalculator {
 		"ConvertedLogPartyDomainMixedProfile456Small.csv",
 		"ConvertedLogPartyDomainCompetitiveProfile789Large.csv",
 		"ConvertedLogPartyDomainCompetitiveProfile789Small.csv"
+	};*/
+	
+	public static String[] logNames = {
+		"ConvertedLogCollaborative Party.csv",
+		"ConvertedLogCollaborative Tram.csv",
+		"ConvertedLogCompetitive Party.csv",
+		"ConvertedLogCompetitive Tram.csv",
+		"ConvertedLogMixed Party.csv",
+		"ConvertedLogMixed Tram.csv"
 	};
 
 	public static String splitByCharacter = ";";

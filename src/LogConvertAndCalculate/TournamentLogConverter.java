@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class TournamentLogConverter {
 
-	public static String[] logNames = {
+/*	public static String[] logNames = {
 		"Group6CollaborativeProfile123Large.csv",
 		"Group6CollaborativeProfile123Small.csv",
 		"Group6MixedProfile456Large.csv",
@@ -22,6 +22,15 @@ public class TournamentLogConverter {
 		"PartyDomainMixedProfile456Small.csv",
 		"PartyDomainCompetitiveProfile789Large.csv",
 		"PartyDomainCompetitiveProfile789Small.csv"
+	};*/
+	
+	public static String[] logNames = {
+		"Collaborative Party.csv",
+		"Collaborative Tram.csv",
+		"Competitive Party.csv",
+		"Competitive Tram.csv",
+		"Mixed Party.csv",
+		"Mixed Tram.csv"
 	};
 	
 	public static String splitByCharacter = ";";
@@ -140,7 +149,7 @@ public class TournamentLogConverter {
 			}
 		}
 		catch (Exception e){
-			
+			System.out.println(e.toString());
 		}
 		finally {
 			if(br != null) {
