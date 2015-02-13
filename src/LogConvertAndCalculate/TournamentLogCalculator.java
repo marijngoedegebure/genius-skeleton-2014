@@ -11,15 +11,19 @@ import java.util.Scanner;
 public class TournamentLogCalculator {
 	// Need to be adjusted to have the
 	public static String[] logNames = {
-			"ConvertedLogGroup6CollaborativeProfile123Large.csv"
-			/*"ConvertedLogGroup6CollaborativeProfile123Small.csv",
-			"ConvertedLogGroup6MixedProfile456Large.csv",
-			"ConvertedLogGroup6MixedProfile456Small.csv",
-			"ConvertedLogPartyDomainCollaborativeProfile123Large.csv",
-			"ConvertedLogPartyDomainCollaborativeProfile123Small.csv",
-			"ConvertedLogPartyDomainMixedProfile456Large.csv",
-			"ConvertedLogPartyDomainMixedProfile456Small.csv" */
-			};
+		"Group6CollaborativeProfile123Large.csv",
+		"Group6CollaborativeProfile123Small.csv",
+		"Group6MixedProfile456Large.csv",
+		"Group6MixedProfile456Small.csv",
+		"Group6CompetitiveProfile789Large.csv",
+		"Group6CompetitiveProfile789Small.csv",
+		"PartyDomainCollaborativeProfile123Large.csv",
+		"PartyDomainCollaborativeProfile123Small.csv",
+		"PartyDomainMixedProfile456Large.csv",
+		"PartyDomainMixedProfile456Small.csv",
+		"PartyDomainCompetitiveProfile789Large.csv",
+		"PartyDomainCompetitiveProfile789Small.csv"
+	};
 
 	public static String splitByCharacter = ";";
 	public static String[] headersSplit = { "Session", "Time (s)", "Rounds",

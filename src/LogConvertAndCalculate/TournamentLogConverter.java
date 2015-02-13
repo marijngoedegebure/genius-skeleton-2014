@@ -14,10 +14,14 @@ public class TournamentLogConverter {
 		"Group6CollaborativeProfile123Small.csv",
 		"Group6MixedProfile456Large.csv",
 		"Group6MixedProfile456Small.csv",
+		"Group6CompetitiveProfile789Large.csv",
+		"Group6CompetitiveProfile789Small.csv",
 		"PartyDomainCollaborativeProfile123Large.csv",
 		"PartyDomainCollaborativeProfile123Small.csv",
 		"PartyDomainMixedProfile456Large.csv",
-		"PartyDomainMixedProfile456Small.csv"
+		"PartyDomainMixedProfile456Small.csv",
+		"PartyDomainCompetitiveProfile789Large.csv",
+		"PartyDomainCompetitiveProfile789Small.csv"
 	};
 	
 	public static String splitByCharacter = ";";
