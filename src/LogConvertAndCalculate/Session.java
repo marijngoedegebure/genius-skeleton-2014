@@ -39,24 +39,9 @@ public class Session {
 		if(!line[10].equals("")) {
 			this.socialWelfare = Double.parseDouble(line[10]);
 		}
-		if(!line[11].substring(23, 24).equals(".")) {
-			this.firstAgentName = line[11].substring(17, 24);
-		}
-		else {
-			this.firstAgentName = line[11].substring(17, 23);
-		}
-		if(!line[12].substring(23, 24).equals(".")) {
-			this.firstAgentName = line[12].substring(17, 24);
-		}
-		else {
-			this.firstAgentName = line[12].substring(17, 23);
-		}
-		if(!line[13].substring(23, 24).equals(".")) {
-			this.firstAgentName = line[13].substring(17, 24);
-		}
-		else {
-			this.firstAgentName = line[13].substring(17, 23);
-		}
+		this.firstAgentName = line[11];
+		this.secondAgentName = line[12];
+		this.thirdAgentName = line[13];
 		this.utilityFirstAgent = Double.parseDouble(line[14]);
 		this.utilitySecondAgent = Double.parseDouble(line[15]);
 		this.utilityThirdAgent = Double.parseDouble(line[16]);
